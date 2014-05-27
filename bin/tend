@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+var docopt = require('docopt');
+var tend = require('../');
+
+var doc = [
+  'Usage:',
+  '  tend (--help | --version)',
+  '  tend [--restart] [--ignoreHidden] <dir> <command> [<filter>]',
+  '',
+  'Options:',
+  '  -h --help          Show this help text',
+  '  -v --version       Show tend version information',
+  '  -r --restart       If <command> is still running when there is a change, stop and re-run it',
+  '  -i --ignoreHidden  Ignore changes to files which start with "."',
+].join('\r\n');
+
+var args = docopt.docopt(doc, {
+  help: true,
+  version: 'tend ' + require('../package.json').version,
+});
+
+var options = {
+  pattern: args['<filter>'],
+  ignoreHidden: args['--ignoreHidden'],
+  restart: args['--restart'],
+};
+tend.tend(args['<dir>'], args['<command>'], options);
