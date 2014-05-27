@@ -26,7 +26,8 @@
   "dependencies": {
     "watch": "~0.10.0",
     "docopt": "~0.4.0",
-    "colors": "~0.6.2"
+    "colors": "~0.6.2",
+    "shell-quote": "^1.4.1"
   },
   "bin": {
     "tend": "bin/tend"
