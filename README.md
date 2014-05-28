@@ -13,8 +13,9 @@ npm install -g tend
 ## Usage
 ```
 Usage:
+  tend
   tend (--help | --version)
-  tend [--restart] [--ignoreHidden] <dir> <command> [<filter>]
+  tend [--restart] [--ignoreHidden] [<dir> <command>] [<filter>]
 
 Options:
   -h --help          Show this help text
@@ -25,6 +26,34 @@ Options:
 
 ```bash
 tend --restart --ignoreHidden ./ "node server.js"
+```
+
+### .tendrc
+
+`tend` can accept it's configuration from a `.tendrc` file rather than taking arguments from
+the command line. Using `.tendrc` also allows you to run multiple instances of `tend` at once.
+
+`.tendrc` files are parsed using [rc](https://github.com/dominictarr/rc).
+
+```ini
+; global settings
+ignoreHidden=true
+
+[js]
+directory=./src
+command=uglifyjs -o ./build/main.min.js ./src/*.js
+
+[app]
+directory=./app
+command=node ./app/server.js
+restart=true
+```
+
+The above config will run two instances of `tend`:
+```bash
+tend --ignoreHidden ./src "uglifyjs -o ./build/main.min.js ./src/*.js"
+# AND
+tend --ignoreHidden --restart ./app "node ./app/server.js"
 ```
 
 ## License
