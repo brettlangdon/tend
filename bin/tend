@@ -5,8 +5,9 @@ var tend = require('../');
 
 var doc = [
   'Usage:',
+  '  tend',
   '  tend (--help | --version)',
-  '  tend [--restart] [--ignoreHidden] <dir> <command> [<filter>]',
+  '  tend [--restart] [--ignoreHidden] [<dir> <command>] [<filter>]',
   '',
   'Options:',
   '  -h --help          Show this help text',
@@ -20,9 +21,28 @@ var args = docopt.docopt(doc, {
   version: 'tend ' + require('../package.json').version,
 });
 
-var options = {
-  pattern: args['<filter>'],
-  ignoreHidden: args['--ignoreHidden'],
-  restart: args['--restart'],
-};
-tend.tend(args['<dir>'], args['<command>'], options);
+var config = tend.parseConfig();
+if (!config && !args['<dir>'] && !args['<command>']) {
+  console.error('No .tendrc file found, must run with "<dir> <command>"');
+  process.exit(1);
+}
+
+if (!config) {
+  config = {};
+}
+
+if (args['<dir>'] && args['<command>']) {
+  config['cli'] = {
+    filter: args['<filter>'],
+    ignoreHidden: args['--ignoreHidden'],
+    restart: args['--restart'],
+    command: args['<command>'],
+    directory: args['<dir>'],
+  }
+}
+
+for (var key in config) {
+  console.log('Starting listener: ' + key);
+  var options = config[key];
+  tend.tend(options.directory, options.command, options);
+}
