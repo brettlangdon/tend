@@ -7,13 +7,14 @@ var doc = [
   'Usage:',
   '  tend',
   '  tend (--help | --version)',
-  '  tend [--restart] [--ignoreHidden] [<dir> <command>] [<filter>]',
+  '  tend [--restart] [--start] [--ignoreHidden] [<dir> <command>] [<filter>]',
   '',
   'Options:',
   '  -h --help          Show this help text',
   '  -v --version       Show tend version information',
   '  -r --restart       If <command> is still running when there is a change, stop and re-run it',
   '  -i --ignoreHidden  Ignore changes to files which start with "."',
+  '  -s --start         Run <command> as soon as tend executes',
 ].join('\r\n');
 
 var args = docopt.docopt(doc, {
@@ -36,6 +37,7 @@ if (args['<dir>'] && args['<command>']) {
     filter: args['<filter>'],
     ignoreHidden: args['--ignoreHidden'],
     restart: args['--restart'],
+    start: args['--start'],
     command: args['<command>'],
     directory: args['<dir>'],
   }
