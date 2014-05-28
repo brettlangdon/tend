@@ -15,7 +15,9 @@
     "watch",
     "cli",
     "file",
-    "command"
+    "command",
+    "make",
+    "makefile"
   ],
   "author": "Brett Langdon <brett@blangdon.com> (http://brett.is)",
   "license": "MIT",
