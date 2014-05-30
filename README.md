@@ -39,12 +39,12 @@ tend --restart --ignoreHidden ./ "node server.js"
 
 Running `tend` with no cli arguments will try to load your `.tendrc` file and start from any configuration set in that
 
-#### tend <action>
+#### tend \<action\>
 
 `tend` will try to load your `.tendrc` file and run the command provided in the section `<action>`. It will run the command
 once and will not watch for changes in `directory`.
 
-#### tend [--restart] [--start] [--ignoreHidden] [--filter <filter>] [<dir> <command>]
+#### tend [--restart] [--start] [--ignoreHidden] [--filter \<filter\>] [\<dir\> \<command\>]
 
 Run `tend` with options for a single directory/command from cli rather than loading options from `.tendrc`.
 
