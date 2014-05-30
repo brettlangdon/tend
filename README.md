@@ -1,6 +1,8 @@
 tend
 ====
 
+[![NPM version](https://badge.fury.io/js/tend.svg)](http://badge.fury.io/js/tend)
+
 Quick and easy cli command to watch a directory for file changes and run a
 provided command when any files have been changed, removed or added.
 
