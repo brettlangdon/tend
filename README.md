@@ -14,19 +14,41 @@ npm install -g tend
 ```
 Usage:
   tend
+  tend <action>
+  tend [--restart] [--start] [--ignoreHidden] [--filter <filter>] [<dir> <command>]
   tend (--help | --version)
-  tend [--restart] [--ignoreHidden] [<dir> <command>] [<filter>]
 
 Options:
-  -h --help          Show this help text
-  -v --version       Show tend version information
-  -r --restart       If <command> is still running when there is a change, stop and re-run it
-  -i --ignoreHidden  Ignore changes to files which start with "."
+  -h --help             Show this help text
+  -v --version          Show tend version information
+  -r --restart          If <command> is still running when there is a change, stop and re-run it
+  -i --ignoreHidden     Ignore changes to files which start with "."
+  -f --filter <filter>  Use <filter> regular expression to filter which files trigger the command
+  -s --start            Run <command> as soon as tend executes
 ```
 
 ```bash
 tend --restart --ignoreHidden ./ "node server.js"
 ```
+
+### Options
+
+#### tend
+
+Running `tend` with no cli arguments will try to load your `.tendrc` file and start from any configuration set in that
+
+#### tend <action>
+
+`tend` will try to load your `.tendrc` file and run the command provided in the section `<action>`. It will run the command
+once and will not watch for changes in `directory`.
+
+#### tend [--restart] [--start] [--ignoreHidden] [--filter <filter>] [<dir> <command>]
+
+Run `tend` with options for a single directory/command from cli rather than loading options from `.tendrc`.
+
+#### tend (--help | --version)
+
+Show help/version information about `tend`
 
 ### .tendrc
 
@@ -47,6 +69,7 @@ command=uglifyjs -o ./build/main.min.js ./src/*.js
 directory=./app
 command=node ./app/server.js
 restart=true
+start=true
 ```
 
 The above config will run two instances of `tend`:
@@ -55,6 +78,14 @@ tend --ignoreHidden ./src "uglifyjs -o ./build/main.min.js ./src/*.js"
 # AND
 tend --ignoreHidden --restart ./app "node ./app/server.js"
 ```
+
+#### .tendrc Options
+* `ignoreHidden` - ignore hidden folders
+* `restart` - restart `command` if a file changes while the previous is still running
+* `start` - start `command` when `tend` starts
+* `directory` - the directory to watch for changes
+* `filter` - regular expression filter for filenames which will trigger `command`
+* `command` - the command to run when a file has changed
 
 ## License
 ```
