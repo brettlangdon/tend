@@ -1,20 +1,23 @@
 #!/usr/bin/env node
 
+var colors = require('colors');
 var docopt = require('docopt');
 var tend = require('../');
 
 var doc = [
   'Usage:',
   '  tend',
+  '  tend <action>',
+  '  tend [--restart] [--start] [--ignoreHidden] [--filter <filter>] [<dir> <command>]',
   '  tend (--help | --version)',
-  '  tend [--restart] [--start] [--ignoreHidden] [<dir> <command>] [<filter>]',
   '',
   'Options:',
-  '  -h --help          Show this help text',
-  '  -v --version       Show tend version information',
-  '  -r --restart       If <command> is still running when there is a change, stop and re-run it',
-  '  -i --ignoreHidden  Ignore changes to files which start with "."',
-  '  -s --start         Run <command> as soon as tend executes',
+  '  -h --help             Show this help text',
+  '  -v --version          Show tend version information',
+  '  -r --restart          If <command> is still running when there is a change, stop and re-run it',
+  '  -i --ignoreHidden     Ignore changes to files which start with "."',
+  '  -f --filter <filter>  Use <filter> regular expression to filter which files trigger the command',
+  '  -s --start            Run <command> as soon as tend executes',
 ].join('\r\n');
 
 var args = docopt.docopt(doc, {
@@ -24,8 +27,22 @@ var args = docopt.docopt(doc, {
 
 var config = tend.parseConfig();
 if (!config && !args['<dir>'] && !args['<command>']) {
-  console.error('No .tendrc file found, must run with "<dir> <command>"');
+  console.error('No .tendrc file found, must run with "<dir> <command>"'.red);
   process.exit(1);
+}
+
+if (config && args['<action>']) {
+  var action = args['<action>'];
+  if (!config[action]) {
+    console.error(('Action ' + action + ' not found in .tendrc file').red);
+    process.exit(1);
+  }
+
+  var newConfig = {};
+  newConfig[action] = config[action];
+  newConfig[action].runOnce = true;
+  newConfig[action].start = true;
+  config = newConfig;
 }
 
 if (!config) {
@@ -44,7 +61,7 @@ if (args['<dir>'] && args['<command>']) {
 }
 
 for (var key in config) {
-  console.log('Starting listener: ' + key);
+  console.log(('Starting listener: ' + key).green);
   var options = config[key];
   tend.tend(options.directory, options.command, options);
 }
