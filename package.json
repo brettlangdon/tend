@@ -29,8 +29,8 @@
     "watch": "~0.10.0",
     "docopt": "~0.4.0",
     "colors": "~0.6.2",
-    "shell-quote": "^1.4.1",
-    "rc": "^0.4.0"
+    "shell-quote": "~1.4.1",
+    "rc": "~0.4.0"
   },
   "bin": {
     "tend": "bin/tend"
