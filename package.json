@@ -26,11 +26,11 @@
   },
   "homepage": "https://github.com/brettlangdon/tend",
   "dependencies": {
-    "watch": "~0.10.0",
     "docopt": "~0.4.0",
     "colors": "~0.6.2",
     "shell-quote": "~1.4.1",
-    "rc": "~0.4.0"
+    "rc": "~0.4.0",
+    "chokidar": "~0.8.2"
   },
   "bin": {
     "tend": "bin/tend"
